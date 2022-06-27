@@ -1,0 +1,38 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>numeronym.me</title>
+  <meta name="description" content="A simple HTML5 Template for new projects.">
+  <meta name="author" content="Wayne Witzel III">
+
+  <meta property="og:title" content="G6e numeronyms.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://numeronym.me">
+  <meta property="og:description" content="A simple project to g6e numeronyms.">
+
+  <link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css" />
+  <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
+
+</head>
+
+<body>
+    <py-script>
+        from pyodide import create_proxy
+        
+        def _generate_numeronym(*args, **kwargs):
+            input_value = document.getElementById("user-input").value
+            document.getElementById("output-target").innerText  = input_value
+        
+        generate_numeronym = create_proxy(_generate_numeronym)
+        document.getElementById("user-input").addEventListener("change", generate_numeronym)
+        
+    </py-script>
+    <p>Type the word you would like to generate a numeronym for.</p>
+    <input id="user-input" style="background:aliceblue">
+    <p id="output-target"></p>
+</body>
+</html>
