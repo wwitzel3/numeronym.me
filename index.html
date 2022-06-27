@@ -20,27 +20,38 @@
   <link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css" />
 </head>
 
-<body>
-    <py-script>
-        from pyodide import create_proxy
-        
-        def _generate_numeronym(*args, **kwargs):
-            input_value = document.getElementById("user-input").value
-            first = input_value[0]
-            last = input_value[-1]
-            num = len(input_value[1:-1])
-            output_value = f"{first}{num}{last}"
-            document.getElementById("output-target").innerText  = output_value
-        
-        generate_numeronym = create_proxy(_generate_numeronym)
-        document.getElementById("user-input").addEventListener("change", generate_numeronym)
-        
-    </py-script>
-    <p>Type the word you would like to generate a numeronym for.</p>
-    <input id="user-input" style="background:aliceblue">
-    <p id="output-target"></p>
+    <body>
+        <py-script>
+            from pyodide import create_proxy
+            
+            def _generate_numeronym(*args, **kwargs):
+                input_value = document.getElementById("user-input").value
+                first = input_value[0]
+                last = input_value[-1]
+                num = len(input_value[1:-1])
+                output_value = f"{first}{num}{last}"
+                document.getElementById("output-target").innerText  = output_value
+            
+            generate_numeronym = create_proxy(_generate_numeronym)
+            document.getElementById("user-input").addEventListener("change", generate_numeronym)
+            
+        </py-script>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
-    <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
-</body>
-</html>
+        <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+            <a class="navbar-brand" href="#">numeronym.me</a>
+        </nav>
+    
+        <main role="main" class="container">
+        
+        <div class="starter-template">
+            <h1>Create your numeronym</h1>
+            <input id="user-input" style="background:aliceblue">
+            <p class="lead" id="output-target"></p>
+        </div>
+        
+        </main><!-- /.container -->
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+        <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
+    </body>
+    </html>
