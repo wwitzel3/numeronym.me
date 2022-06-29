@@ -47,7 +47,7 @@
     <body>
         <py-script>
           from n7m import generate_numeronym
-          document.getElementById("user-input").addEventListener("change", generate_numeronym)
+          document.getElementById("user-input").addEventListener("change", generate_numeronym(document))
         </py-script>
 
         <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
