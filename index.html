@@ -1,6 +1,7 @@
 <!doctype html>
 
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -14,45 +15,54 @@
   <meta property="og:url" content="https://numeronym.me">
   <meta property="og:description" content="A simple project to g6e numeronyms.">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  
+
   <!-- Custom styles for this template -->
   <link href="starter-template.css" rel="stylesheet">
 
   <!-- CSS only -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://pyscript.net/releases/2023.03.1/pyscript.css" />
   <py-env>
     - paths:
-      - ./n7m.py
+    - ./n7m.py
   </py-env>
 </head>
-    <py-script>
-      from n7m import generate_numeronym
-    </py-script>
+<py-script src="./n7m.py"></py-script>
+<py-script>
+# Need to make a method to run on key down and on on_click
+# Refactor n7m generate_numeronym to take text only and return numeronym
+# Update Element with result
+# Use new py-click?
+</py-script>
 
-    <body>
-        <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-            <a class="navbar-brand mb-0 h1" href="#">numeronym.me</a>
-        </nav>
+<body>
+  <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+    <a class="navbar-brand mb-0 h1" href="#">numeronym.me</a>
+  </nav>
 
-        <main role="main" class="container">
-        <div class="starter-template">
-            <h1>Generate a numeronym</h1>
-            <py-inputbox id="text-input" >
-              def on_keypress(event):
-                input_value = event.target.value + chr(event.charCode)
-                generate_numeronym(document, input_value)
-            </py-inputbox>
-            <py-button id="gen-button" label="G6E" >
-              def on_click(event):
-                input_value = Element("text-input").value
-                generate_numeronym(document, input_value)
-            </py-button>
-            <h3 class="lead" id="output-target"></h3>
-        </div>
-        </main>
+  <main role="main" class="container">
+    <div class="starter-template">
+      <h1>Generate a numeronym</h1>
+      <input type="text" id="text-input">
+      {{/*  <py-inputbox id="text-input">
+        def on_keypress(event):
+        input_value = event.target.value + chr(event.charCode)
+        generate_numeronym(document, input_value)
+      </py-inputbox>
+      <py-button id="gen-button" label="G6E">
+        def on_click(event):
+        input_value = Element("text-input").value
+        generate_numeronym(document, input_value)
+      </py-button>  */}}
+      <h3 class="lead" id="output-target"></h3>
+    </div>
+  </main>
 
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
-        <script defer src="https://pyscript.net/latest/pyscript.js"></script>
-    </body>
-    </html>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+    crossorigin="anonymous"></script>
+  <script defer src="https://pyscript.net/releases/2023.03.1/pyscript.js"></script>
+</body>
+
+</html>
