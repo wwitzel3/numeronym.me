@@ -1,0 +1,9 @@
+on:
+  pull_request:
+    branches:
+      - main
+      
+jobs:
+  preview:
+  - name: Deploy PR Preview
+    uses: rossjrw/pr-preview-action@v1.4.1
