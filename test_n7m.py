@@ -1,6 +1,6 @@
 import unittest
 
-from n7m import numeronym
+from n7m import numeronym, word_from_path
 
 
 class NumeronymTests(unittest.TestCase):
@@ -21,6 +21,21 @@ class NumeronymTests(unittest.TestCase):
 
     def test_surrounding_whitespace_is_ignored(self):
         self.assertEqual(numeronym("  kubernetes\r"), "k8s")
+
+
+class WordFromPathTests(unittest.TestCase):
+    def test_root_path_has_no_word(self):
+        self.assertEqual(word_from_path("/"), "")
+        self.assertEqual(word_from_path(""), "")
+
+    def test_single_segment_is_the_word(self):
+        self.assertEqual(word_from_path("/kubernetes"), "kubernetes")
+
+    def test_trailing_slash_is_ignored(self):
+        self.assertEqual(word_from_path("/kubernetes/"), "kubernetes")
+
+    def test_percent_encoding_is_decoded(self):
+        self.assertEqual(word_from_path("/%C3%BCber"), "\u00fcber")
 
 
 if __name__ == "__main__":

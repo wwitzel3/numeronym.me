@@ -15,25 +15,25 @@
   <meta property="og:description" content="A simple project to g6e numeronyms.">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
-  <link rel="icon" href="favicon.svg" type="image/svg+xml">
-  <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48 64x64">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48 64x64">
 
   <!-- Custom styles for this template -->
-  <link href="starter-template.css" rel="stylesheet">
+  <link href="/starter-template.css" rel="stylesheet">
 
   <!-- Vendored assets: bootstrap 5.2.0-beta1, pyscript 2022.06.1, pyodide 0.20.0 -->
-  <link href="vendor/bootstrap/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="vendor/pyscript/pyscript.css" />
+  <link href="/vendor/bootstrap/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/vendor/pyscript/pyscript.css" />
   <py-config>
     autoclose_loader: true
     runtimes:
-      - src: ./vendor/pyodide/pyodide.js
+      - src: /vendor/pyodide/pyodide.js
         name: pyodide-0.20.0
         lang: python
   </py-config>
   <py-env>
     - paths:
-      - ./n7m.py
+      - /n7m.py
   </py-env>
 </head>
     <py-script>
@@ -59,10 +59,19 @@
                 generate_numeronym(document, input_value)
             </py-button>
             <h3 class="lead" id="output-target"></h3>
+            <py-script>
+              # numeronym.me/kubernetes pre-fills the input and shows k8s straight away.
+              from js import window
+              from n7m import word_from_path
+              word = word_from_path(window.location.pathname)
+              if word:
+                  document.getElementById("text-input").value = word
+                  generate_numeronym(document, word)
+            </py-script>
         </div>
         </main>
 
-        <script src="vendor/bootstrap/bootstrap.bundle.min.js"></script>
-        <script defer src="vendor/pyscript/pyscript.js"></script>
+        <script src="/vendor/bootstrap/bootstrap.bundle.min.js"></script>
+        <script defer src="/vendor/pyscript/pyscript.js"></script>
     </body>
     </html>
