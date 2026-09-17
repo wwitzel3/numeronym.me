@@ -3,8 +3,8 @@
 .gitignore
 .dockerignore
 .playwright-mcp
-__pycache__
-test_n7m.py
+node_modules
+dist
 Makefile
 Dockerfile
 README.md

@@ -16,7 +16,20 @@ Put the word in the URL to generate it straight away: https://numeronym.me/kuber
 
 See: https://en.wikipedia.org/wiki/Numeronym
 
+## Development
+
+Requires [bun](https://bun.sh).
+
+    make install   # dev dependencies
+    make test      # unit tests
+    make dist      # build the static site into dist/
+    make run       # build the docker image and serve it on http://localhost:8080
+
+The whole site ships as a single self-contained `index.html` (about 6 KB
+gzipped): `build.ts` bundles `src/main.ts` and inlines it with the compiled
+Tailwind CSS.
+
 ## Thanks
 
-- https://github.com/pyscript/pyscript
+- https://bun.sh
 - https://tailwindcss.com

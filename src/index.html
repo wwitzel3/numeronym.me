@@ -16,20 +16,8 @@
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48 64x64">
 
-  <!-- Vendored assets: tailwind 3.4 (built from this file), pyscript 2022.06.1, pyodide 0.20.0 -->
-  <link href="/vendor/tailwind/tailwind.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="/vendor/pyscript/pyscript.css" />
-  <py-config>
-    autoclose_loader: true
-    runtimes:
-      - src: /vendor/pyodide/pyodide.js
-        name: pyodide-0.20.0
-        lang: python
-  </py-config>
-  <py-env>
-    - paths:
-      - /n7m.py
-  </py-env>
+  <!-- build.ts inlines the compiled Tailwind CSS here so the page is a single request. -->
+  <style>/* __CSS__ */</style>
 </head>
 
 <body class="min-h-full bg-slate-50 text-slate-900 antialiased">
@@ -88,49 +76,7 @@
     <a href="https://en.wikipedia.org/wiki/Numeronym" class="underline decoration-slate-300 underline-offset-2 hover:text-slate-900">More on Wikipedia</a>.
   </footer>
 
-  <py-script>
-    from pyodide import create_proxy
-    from js import window, navigator
-    from n7m import generate_numeronym, word_from_path
-
-    text_input = document.getElementById("text-input")
-
-    def show(word):
-        generate_numeronym(document, word)
-        window.history.replaceState(None, "", "/" + word.strip() if word.strip() else "/")
-
-    def on_input(event):
-        show(text_input.value)
-
-    def on_submit(event):
-        event.preventDefault()
-        show(text_input.value)
-
-    def on_example(event):
-        event.preventDefault()
-        word = event.currentTarget.dataset.word
-        text_input.value = word
-        show(word)
-
-    def on_copy(event):
-        button = event.currentTarget
-        navigator.clipboard.writeText(document.getElementById("output-target").innerText)
-        button.innerText = "Copied"
-        window.setTimeout(create_proxy(lambda: setattr(button, "innerText", "Copy")), 1500)
-
-    text_input.addEventListener("input", create_proxy(on_input))
-    document.getElementById("n7m-form").addEventListener("submit", create_proxy(on_submit))
-    document.getElementById("copy-button").addEventListener("click", create_proxy(on_copy))
-    for link in document.querySelectorAll("#examples a"):
-        link.addEventListener("click", create_proxy(on_example))
-
-    # numeronym.me/kubernetes pre-fills the input and shows k8s straight away.
-    word = word_from_path(window.location.pathname)
-    if word:
-        text_input.value = word
-        show(word)
-  </py-script>
-
-  <script defer src="/vendor/pyscript/pyscript.js"></script>
+  <!-- build.ts inlines the bundled, minified main.ts here. -->
+  <script type="module">/* __JS__ */</script>
 </body>
 </html>

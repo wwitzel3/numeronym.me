@@ -3,20 +3,28 @@ IMAGE    ?= $(REGISTRY)/numeronym
 VERSION  ?= $(shell git describe --tags --always --dirty 2>/dev/null || echo dev)
 PORT     ?= 8080
 
-.PHONY: help test css build release run clean
+.PHONY: help install test check dist build release run clean
 
 help:
+	@echo "install  install dev dependencies with bun"
 	@echo "test     run the unit tests"
-	@echo "css      rebuild vendor/tailwind/tailwind.min.css from tailwind/"
+	@echo "check    type-check with tsc"
+	@echo "dist     build the static site into dist/"
 	@echo "build    build the docker image ($(IMAGE):$(VERSION))"
 	@echo "release  run tests, build, and push the image to $(REGISTRY)"
 	@echo "run      serve the built image locally on http://localhost:$(PORT)"
 
-test:
-	python3 -m unittest -v
+install:
+	bun install
 
-css:
-	npx --yes tailwindcss@3.4.17 -c tailwind/tailwind.config.js -i tailwind/input.css -o vendor/tailwind/tailwind.min.css --minify
+test:
+	bun test
+
+check:
+	bunx tsc --noEmit
+
+dist:
+	bun run build
 
 build:
 	docker build -t $(IMAGE):$(VERSION) -t $(IMAGE):latest .
@@ -29,5 +37,5 @@ run: build
 	docker run --rm -p $(PORT):80 $(IMAGE):$(VERSION)
 
 clean:
-	rm -rf __pycache__
+	rm -rf dist node_modules
 	-docker rmi $(IMAGE):$(VERSION) $(IMAGE):latest 2>/dev/null
