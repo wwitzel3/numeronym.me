@@ -1,0 +1,13 @@
+.git
+.github
+.gitignore
+.dockerignore
+.playwright-mcp
+__pycache__
+test_n7m.py
+Makefile
+Dockerfile
+README.md
+LICENSE
+CNAME
+.nojekyll

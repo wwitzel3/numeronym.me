@@ -1,8 +1,17 @@
-def generate_numeronym(document, input_value):
-    first = input_value[0]
-    last = input_value[-1]
-    num = len(input_value[1:-1])
-    output_value = f"{first}{num}{last}"
-    document.getElementById("output-target").innerText = output_value
+def numeronym(word):
+    """Return the numeronym of ``word`` (kubernetes -> k8s).
 
-__all__ = ['generate_numeronym']
+    Words shorter than three characters have nothing to abbreviate and are
+    returned unchanged; an empty string yields an empty string.
+    """
+    word = word.strip()
+    if len(word) < 3:
+        return word
+    return f"{word[0]}{len(word) - 2}{word[-1]}"
+
+
+def generate_numeronym(document, input_value):
+    document.getElementById("output-target").innerText = numeronym(input_value)
+
+
+__all__ = ["numeronym", "generate_numeronym"]
