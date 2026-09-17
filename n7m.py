@@ -13,6 +13,19 @@ def numeronym(word):
     return f"{word[0]}{len(word) - 2}{word[-1]}"
 
 
+def parts(word):
+    """Split ``word`` into the letters a numeronym keeps and counts.
+
+    ``kubernetes`` -> ``("k", "ubernete", "s")``; the middle is what the
+    digit stands for. Words too short to abbreviate come back whole with
+    nothing counted.
+    """
+    word = word.strip()
+    if len(word) < 3:
+        return (word, "", "")
+    return (word[0], word[1:-1], word[-1])
+
+
 def word_from_path(pathname):
     """Return the word encoded in a URL path (``/kubernetes`` -> ``kubernetes``).
 
@@ -23,7 +36,14 @@ def word_from_path(pathname):
 
 
 def generate_numeronym(document, input_value):
-    document.getElementById("output-target").innerText = numeronym(input_value)
+    """Render the numeronym and the letters it came from; hide it all for empty input."""
+    result = numeronym(input_value)
+    first, middle, last = parts(input_value)
+    document.getElementById("output-target").innerText = result
+    document.getElementById("part-first").innerText = first
+    document.getElementById("part-middle").innerText = middle
+    document.getElementById("part-last").innerText = last
+    document.getElementById("result").classList.toggle("hidden", not result)
 
 
-__all__ = ["numeronym", "word_from_path", "generate_numeronym"]
+__all__ = ["numeronym", "parts", "word_from_path", "generate_numeronym"]

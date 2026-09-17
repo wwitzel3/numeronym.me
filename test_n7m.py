@@ -1,6 +1,6 @@
 import unittest
 
-from n7m import numeronym, word_from_path
+from n7m import numeronym, parts, word_from_path
 
 
 class NumeronymTests(unittest.TestCase):
@@ -21,6 +21,19 @@ class NumeronymTests(unittest.TestCase):
 
     def test_surrounding_whitespace_is_ignored(self):
         self.assertEqual(numeronym("  kubernetes\r"), "k8s")
+
+
+class PartsTests(unittest.TestCase):
+    def test_splits_into_first_middle_last(self):
+        self.assertEqual(parts("kubernetes"), ("k", "ubernete", "s"))
+        self.assertEqual(parts("abc"), ("a", "b", "c"))
+
+    def test_short_words_have_no_middle(self):
+        self.assertEqual(parts("ab"), ("ab", "", ""))
+        self.assertEqual(parts(""), ("", "", ""))
+
+    def test_surrounding_whitespace_is_ignored(self):
+        self.assertEqual(parts("  kubernetes\n"), ("k", "ubernete", "s"))
 
 
 class WordFromPathTests(unittest.TestCase):

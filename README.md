@@ -19,3 +19,4 @@ See: https://en.wikipedia.org/wiki/Numeronym
 ## Thanks
 
 - https://github.com/pyscript/pyscript
+- https://tailwindcss.com

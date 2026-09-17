@@ -1,28 +1,23 @@
 <!doctype html>
-
-<html lang="en">
+<html lang="en" class="h-full">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <title>numeronym.me</title>
-  <meta name="description" content="A simple HTML5 Template for new projects.">
+  <meta name="description" content="Generate numeronyms: kubernetes becomes k8s, internationalization becomes i18n.">
   <meta name="author" content="Wayne Witzel III">
 
   <meta property="og:title" content="G6e numeronyms.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://numeronym.me">
   <meta property="og:description" content="A simple project to g6e numeronyms.">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  
+
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48 64x64">
 
-  <!-- Custom styles for this template -->
-  <link href="/starter-template.css" rel="stylesheet">
-
-  <!-- Vendored assets: bootstrap 5.2.0-beta1, pyscript 2022.06.1, pyodide 0.20.0 -->
-  <link href="/vendor/bootstrap/bootstrap.min.css" rel="stylesheet">
+  <!-- Vendored assets: tailwind 3.4 (built from this file), pyscript 2022.06.1, pyodide 0.20.0 -->
+  <link href="/vendor/tailwind/tailwind.min.css" rel="stylesheet">
   <link rel="stylesheet" href="/vendor/pyscript/pyscript.css" />
   <py-config>
     autoclose_loader: true
@@ -36,42 +31,106 @@
       - /n7m.py
   </py-env>
 </head>
-    <py-script>
-      from n7m import generate_numeronym
-    </py-script>
 
-    <body>
-        <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-            <a class="navbar-brand mb-0 h1" href="#">numeronym.me</a>
-        </nav>
+<body class="min-h-full bg-slate-50 text-slate-900 antialiased">
+  <header class="border-b border-slate-200 bg-white">
+    <div class="mx-auto flex max-w-xl items-center justify-between px-4 py-3">
+      <a href="/" class="text-base font-semibold tracking-tight">numeronym.me</a>
+      <a href="https://github.com/wwitzel3/numeronym.me" class="text-sm text-slate-500 hover:text-slate-900">Source</a>
+    </div>
+  </header>
 
-        <main role="main" class="container">
-        <div class="starter-template">
-            <h1>Generate a numeronym</h1>
-            <py-inputbox id="text-input" >
-              def on_keypress(event):
-                input_value = event.target.value + chr(event.charCode)
-                generate_numeronym(document, input_value)
-            </py-inputbox>
-            <py-button id="gen-button" label="G6E" >
-              def on_click(event):
-                input_value = Element("text-input").value
-                generate_numeronym(document, input_value)
-            </py-button>
-            <h3 class="lead" id="output-target"></h3>
-            <py-script>
-              # numeronym.me/kubernetes pre-fills the input and shows k8s straight away.
-              from js import window
-              from n7m import word_from_path
-              word = word_from_path(window.location.pathname)
-              if word:
-                  document.getElementById("text-input").value = word
-                  generate_numeronym(document, word)
-            </py-script>
-        </div>
-        </main>
+  <main class="mx-auto max-w-xl px-4 py-12 sm:py-16">
+    <h1 class="text-3xl font-semibold tracking-tight sm:text-4xl">Generate a numeronym</h1>
+    <p class="mt-2 text-slate-500">Keep the first and last letter, count everything in between.</p>
 
-        <script src="/vendor/bootstrap/bootstrap.bundle.min.js"></script>
-        <script defer src="/vendor/pyscript/pyscript.js"></script>
-    </body>
-    </html>
+    <form id="n7m-form" class="mt-8 flex gap-2" autocomplete="off">
+      <label for="text-input" class="sr-only">Word to abbreviate</label>
+      <input id="text-input" type="text" placeholder="kubernetes" spellcheck="false" autofocus
+             class="min-w-0 flex-1 rounded-lg border border-slate-300 bg-white px-4 py-3 text-lg shadow-sm
+                    placeholder:text-slate-400 focus:border-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-600">
+      <button id="gen-button" type="submit"
+              class="rounded-lg bg-indigo-600 px-5 py-3 text-lg font-medium text-white shadow-sm
+                     hover:bg-indigo-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-600 focus-visible:ring-offset-2">
+        Generate
+      </button>
+    </form>
+
+    <section id="result" class="mt-10 hidden" aria-live="polite">
+      <div class="flex flex-wrap items-end gap-x-6 gap-y-3">
+        <output id="output-target" for="text-input"
+                class="break-all font-mono text-6xl font-semibold leading-none tracking-tight sm:text-7xl"></output>
+        <button id="copy-button" type="button"
+                class="rounded-md border border-slate-300 bg-white px-3 py-1.5 text-sm font-medium text-slate-700 shadow-sm
+                       hover:bg-slate-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-600 focus-visible:ring-offset-2">
+          Copy
+        </button>
+      </div>
+      <p id="breakdown" class="mt-4 break-all font-mono text-xl text-slate-900">
+        <span id="part-first"></span><span id="part-middle" class="text-slate-400"></span><span id="part-last"></span>
+      </p>
+    </section>
+
+    <section class="mt-14">
+      <h2 class="text-sm text-slate-500">Try one</h2>
+      <ul id="examples" class="mt-3 flex flex-wrap gap-2">
+        <li><a href="/kubernetes" data-word="kubernetes" class="example">kubernetes</a></li>
+        <li><a href="/internationalization" data-word="internationalization" class="example">internationalization</a></li>
+        <li><a href="/localization" data-word="localization" class="example">localization</a></li>
+        <li><a href="/accessibility" data-word="accessibility" class="example">accessibility</a></li>
+        <li><a href="/numeronym" data-word="numeronym" class="example">numeronym</a></li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="mx-auto max-w-xl px-4 pb-12 text-sm text-slate-500">
+    The first numeronym of this kind was <span class="font-mono">S12n</span>, a DEC login for Jan Scherpenhuizen.
+    <a href="https://en.wikipedia.org/wiki/Numeronym" class="underline decoration-slate-300 underline-offset-2 hover:text-slate-900">More on Wikipedia</a>.
+  </footer>
+
+  <py-script>
+    from pyodide import create_proxy
+    from js import window, navigator
+    from n7m import generate_numeronym, word_from_path
+
+    text_input = document.getElementById("text-input")
+
+    def show(word):
+        generate_numeronym(document, word)
+        window.history.replaceState(None, "", "/" + word.strip() if word.strip() else "/")
+
+    def on_input(event):
+        show(text_input.value)
+
+    def on_submit(event):
+        event.preventDefault()
+        show(text_input.value)
+
+    def on_example(event):
+        event.preventDefault()
+        word = event.currentTarget.dataset.word
+        text_input.value = word
+        show(word)
+
+    def on_copy(event):
+        button = event.currentTarget
+        navigator.clipboard.writeText(document.getElementById("output-target").innerText)
+        button.innerText = "Copied"
+        window.setTimeout(create_proxy(lambda: setattr(button, "innerText", "Copy")), 1500)
+
+    text_input.addEventListener("input", create_proxy(on_input))
+    document.getElementById("n7m-form").addEventListener("submit", create_proxy(on_submit))
+    document.getElementById("copy-button").addEventListener("click", create_proxy(on_copy))
+    for link in document.querySelectorAll("#examples a"):
+        link.addEventListener("click", create_proxy(on_example))
+
+    # numeronym.me/kubernetes pre-fills the input and shows k8s straight away.
+    word = word_from_path(window.location.pathname)
+    if word:
+        text_input.value = word
+        show(word)
+  </py-script>
+
+  <script defer src="/vendor/pyscript/pyscript.js"></script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .example {
+    @apply inline-block rounded-full border border-slate-300 bg-white px-3 py-1 text-sm text-slate-700 shadow-sm;
+    @apply hover:border-indigo-600 hover:text-indigo-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-600 focus-visible:ring-offset-2;
+  }
+}
